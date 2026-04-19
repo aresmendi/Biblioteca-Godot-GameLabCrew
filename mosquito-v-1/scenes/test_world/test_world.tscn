@@ -1,24 +1,38 @@
-[gd_scene load_steps=10 format=3 uid="uid://bxtrqpghco5ya"]
+[gd_scene load_steps=16 format=3 uid="uid://bxtrqpghco5ya"]
 
 [ext_resource type="Texture2D" uid="uid://d0cnev3jvfu58" path="res://assets/textures/test_wall.png" id="1_4c7jm"]
 [ext_resource type="Texture2D" uid="uid://da7espd388qt4" path="res://assets/environments/sky/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_pxqpm"]
+[ext_resource type="Script" uid="uid://ccu3mopsh7d35" path="res://scripts/collision/copy_mesh_size.gd" id="2_mlo6r"]
 [ext_resource type="PackedScene" uid="uid://qp32euuatmm2" path="res://scenes/mosquito_player/mosquito_player.tscn" id="3_4c7jm"]
+[ext_resource type="PackedScene" uid="uid://dctahdkqi6uv0" path="res://scenes/props/sofa_orange.tscn" id="4_70ebh"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_70ebh"]
-size = Vector3(50, 0.1, 50)
+size = Vector3(550, 0.1, 600)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mlo6r"]
 albedo_texture = ExtResource("1_4c7jm")
-uv1_scale = Vector3(8, 8, 8)
+uv1_scale = Vector3(20, 20, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0nfd6"]
 size = Vector3(50, 0.1, 50)
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hnis5"]
+[sub_resource type="BoxMesh" id="BoxMesh_88hid"]
+size = Vector3(550, 0.1, 600)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mlo6r"]
+size = Vector3(20, 300, 600)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_88hid"]
+size = Vector3(50, 0.1, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0nfd6"]
+size = Vector3(520, 300, 20)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_mlo6r"]
 panorama = ExtResource("1_pxqpm")
 
 [sub_resource type="Sky" id="Sky_4c7jm"]
-sky_material = SubResource("PanoramaSkyMaterial_hnis5")
+sky_material = SubResource("PanoramaSkyMaterial_mlo6r")
 
 [sub_resource type="Environment" id="Environment_70ebh"]
 background_mode = 2
@@ -29,16 +43,92 @@ tonemap_mode = 2
 
 [node name="stage" type="Node3D" parent="."]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="stage"]
+[node name="platform" type="StaticBody3D" parent="stage"]
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="stage/StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stage/platform"]
 mesh = SubResource("BoxMesh_70ebh")
 surface_material_override/0 = SubResource("StandardMaterial3D_mlo6r")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="stage/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stage/platform" node_paths=PackedStringArray("mesh_instance")]
 shape = SubResource("BoxShape3D_0nfd6")
+script = ExtResource("2_mlo6r")
+mesh_instance = NodePath("../MeshInstance3D")
+
+[node name="ceiling" type="StaticBody3D" parent="stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 297.68015, 0)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stage/ceiling"]
+mesh = SubResource("BoxMesh_88hid")
+surface_material_override/0 = SubResource("StandardMaterial3D_mlo6r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stage/ceiling" node_paths=PackedStringArray("mesh_instance")]
+shape = SubResource("BoxShape3D_0nfd6")
+script = ExtResource("2_mlo6r")
+mesh_instance = NodePath("../MeshInstance3D")
+
+[node name="wall" type="StaticBody3D" parent="stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 265, 150, -1.5)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stage/wall"]
+mesh = SubResource("BoxMesh_mlo6r")
+surface_material_override/0 = SubResource("StandardMaterial3D_mlo6r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stage/wall" node_paths=PackedStringArray("mesh_instance")]
+shape = SubResource("BoxShape3D_88hid")
+script = ExtResource("2_mlo6r")
+mesh_instance = NodePath("../MeshInstance3D")
+
+[node name="wall2" type="StaticBody3D" parent="stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 150, 290)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stage/wall2"]
+mesh = SubResource("BoxMesh_0nfd6")
+surface_material_override/0 = SubResource("StandardMaterial3D_mlo6r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stage/wall2" node_paths=PackedStringArray("mesh_instance")]
+shape = SubResource("BoxShape3D_88hid")
+script = ExtResource("2_mlo6r")
+mesh_instance = NodePath("../MeshInstance3D")
+
+[node name="wall3" type="StaticBody3D" parent="stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -275, 150, -1.5)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stage/wall3"]
+mesh = SubResource("BoxMesh_mlo6r")
+surface_material_override/0 = SubResource("StandardMaterial3D_mlo6r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stage/wall3" node_paths=PackedStringArray("mesh_instance")]
+shape = SubResource("BoxShape3D_88hid")
+script = ExtResource("2_mlo6r")
+mesh_instance = NodePath("../MeshInstance3D")
+
+[node name="wall4" type="StaticBody3D" parent="stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 150, -289.46863)
+visible = false
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stage/wall4"]
+mesh = SubResource("BoxMesh_0nfd6")
+surface_material_override/0 = SubResource("StandardMaterial3D_mlo6r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stage/wall4" node_paths=PackedStringArray("mesh_instance")]
+shape = SubResource("BoxShape3D_88hid")
+script = ExtResource("2_mlo6r")
+mesh_instance = NodePath("../MeshInstance3D")
+
+[node name="Sofa_orange" parent="stage" instance=ExtResource("4_70ebh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 0, 275)
 
 [node name="environment" type="Node3D" parent="."]
 
@@ -50,4 +140,4 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="mosquito_player" parent="." instance=ExtResource("3_4c7jm")]
-transform = Transform3D(-0.2, 0, -1.7484556e-08, 0, 0.2, 0, 1.7484556e-08, 0, -0.2, 0, 5.4665565, -9.570921)
+transform = Transform3D(-0.2, 0, -1.7484556e-08, 0, 0.2, 0, 1.7484556e-08, 0, -0.2, 0, 130.32945, -9.570921)

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://ndrwv0dt162l"]
+
+[ext_resource type="PackedScene" uid="uid://cu4pg7rxa8qwx" path="res://assets/models/mosquito/Mosquito.glb" id="1_co06k"]
+[ext_resource type="Script" uid="uid://cdmaeyenneurk" path="res://scripts/player/mosquito_model.gd" id="2_m3yre"]
+
+[node name="Mosquito" instance=ExtResource("1_co06k")]
+script = ExtResource("2_m3yre")

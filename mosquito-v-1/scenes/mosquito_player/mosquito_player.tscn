@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://qp32euuatmm2"]
 
 [ext_resource type="Script" uid="uid://di5k0s5h3owav" path="res://scripts/player/player_movement.gd" id="1_no7m7"]
-[ext_resource type="PackedScene" uid="uid://cu4pg7rxa8qwx" path="res://assets/models/mosquito/Mosquito.glb" id="1_yu1ew"]
+[ext_resource type="PackedScene" uid="uid://ndrwv0dt162l" path="res://scenes/mosquito_player/mosquito_model.tscn" id="2_no7m7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_no7m7"]
 radius = 4.54
@@ -12,6 +12,10 @@ script = ExtResource("1_no7m7")
 yaw_pivot = NodePath("YawPivot")
 pitch_pivot = NodePath("YawPivot/PitchPivot")
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("SphereShape3D_no7m7")
+
 [node name="YawPivot" type="Node3D" parent="."]
 
 [node name="PitchPivot" type="Node3D" parent="YawPivot"]
@@ -20,9 +24,8 @@ pitch_pivot = NodePath("YawPivot/PitchPivot")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2606499, -1.390199)
 current = true
 
-[node name="Mosquito" parent="YawPivot/PitchPivot" instance=ExtResource("1_yu1ew")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0.1, 0.1)
+[node name="Camera_test" type="Camera3D" parent="YawPivot/PitchPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3970573, 10.568242)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-shape = SubResource("SphereShape3D_no7m7")
+[node name="Mosquito" parent="YawPivot/PitchPivot" instance=ExtResource("2_no7m7")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0.1)

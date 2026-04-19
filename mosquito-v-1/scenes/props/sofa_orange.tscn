@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=3 uid="uid://dctahdkqi6uv0"]
+
+[ext_resource type="PackedScene" uid="uid://tr3j1l8tgo0p" path="res://scenes/props/sofa_models.tscn" id="1_qylb2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ir2jy"]
+size = Vector3(240.82042, 64.95142, 15.2907715)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f0s3d"]
+size = Vector3(19.01175, 49.450443, 109.96765)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dydxo"]
+size = Vector3(19.01175, 49.450443, 109.96765)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xfg0n"]
+size = Vector3(239.93445, 35.69702, 93.563416)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e14rp"]
+size = Vector3(239.93445, 80.04761, 24.986664)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_01mn0"]
+size = Vector3(20.120049, 5.9234314, 10.11549)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4skd"]
+size = Vector3(40.129482, 5.9234314, 10.11549)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r3arm"]
+size = Vector3(19.969872, 5.9234314, 10.11549)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r1fnn"]
+size = Vector3(19.969872, 5.9234314, 10.11549)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kqo0f"]
+size = Vector3(40.812572, 5.9234314, 10.11549)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wrcfp"]
+size = Vector3(20.305212, 5.9234314, 10.11549)
+
+[node name="Sofa_orange" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="backrest" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12082672, 38.602024, -7.1453857)
+shape = SubResource("BoxShape3D_ir2jy")
+
+[node name="armrest_left" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -130.03932, 30.851534, -54.483826)
+shape = SubResource("BoxShape3D_f0s3d")
+
+[node name="armrest_left2" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 130.79948, 30.851534, -54.483826)
+shape = SubResource("BoxShape3D_dydxo")
+
+[node name="seat" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22180176, 23.974823, -62.685944)
+shape = SubResource("BoxShape3D_xfg0n")
+
+[node name="back_rest" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22180176, 46.150116, -28.397568)
+shape = SubResource("BoxShape3D_e14rp")
+
+[node name="legs_1" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -130.26007, 3.0962067, -4.931532)
+shape = SubResource("BoxShape3D_01mn0")
+
+[node name="legs_2" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35206032, 3.0962067, -4.931532)
+shape = SubResource("BoxShape3D_g4skd")
+
+[node name="legs_3" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 130.43623, 3.0962067, -4.931532)
+shape = SubResource("BoxShape3D_r3arm")
+
+[node name="legs_4" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 130.43623, 3.0962067, -104.9563)
+shape = SubResource("BoxShape3D_r1fnn")
+
+[node name="legs_5" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.017011642, 3.0962067, -104.9563)
+shape = SubResource("BoxShape3D_kqo0f")
+
+[node name="legs_6" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -130.38559, 3.0962067, -104.9563)
+shape = SubResource("BoxShape3D_wrcfp")
+
+[node name="Sofa2" parent="StaticBody3D" instance=ExtResource("1_qylb2")]
