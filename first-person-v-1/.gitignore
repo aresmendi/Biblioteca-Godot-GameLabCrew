@@ -1,0 +1,64 @@
+# =========================
+# Godot .gitignore
+# =========================
+
+# Carpeta de importación (archivos generados automáticamente)
+.import/
+
+# Godot 4.x cache
+.godot/
+
+# Exportaciones
+export.cfg
+export_presets.cfg
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+*.log
+
+# Binarios exportados (opcional, si no quieres subir builds)
+*.apk
+*.aab
+*.ipa
+*.x86_64
+*.zip
+
+# Archivos de editor (configuración local)
+.editor_settings-*.tres
+
+# Caché de scripts (Godot 4)
+*.gdc
+*.import
+
+# Mono / C# (si usas Godot con C#)
+.mono/
+data_*/
+*.csproj
+*.sln
+*.user
+*.dotsettings
+
+# VSCode
+.vscode/
+
+# JetBrains / Rider
+.idea/
+
+# Archivos de backup
+*~
+*.bak
+
+# =========================
+# Importante (NO ignorar)
+# =========================
+# project.godot
+# *.tscn
+# *.tres
+# assets (textures, models, audio, etc.)

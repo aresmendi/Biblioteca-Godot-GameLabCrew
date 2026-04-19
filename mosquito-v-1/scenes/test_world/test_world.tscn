@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://bxtrqpghco5ya"]
+
+[ext_resource type="Texture2D" uid="uid://d0cnev3jvfu58" path="res://assets/textures/test_wall.png" id="1_4c7jm"]
+[ext_resource type="Texture2D" uid="uid://da7espd388qt4" path="res://assets/environments/sky/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_pxqpm"]
+[ext_resource type="PackedScene" uid="uid://qp32euuatmm2" path="res://scenes/mosquito_player/mosquito_player.tscn" id="3_4c7jm"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_70ebh"]
+size = Vector3(50, 0.1, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mlo6r"]
+albedo_texture = ExtResource("1_4c7jm")
+uv1_scale = Vector3(8, 8, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0nfd6"]
+size = Vector3(50, 0.1, 50)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hnis5"]
+panorama = ExtResource("1_pxqpm")
+
+[sub_resource type="Sky" id="Sky_4c7jm"]
+sky_material = SubResource("PanoramaSkyMaterial_hnis5")
+
+[sub_resource type="Environment" id="Environment_70ebh"]
+background_mode = 2
+sky = SubResource("Sky_4c7jm")
+tonemap_mode = 2
+
+[node name="test_world" type="Node3D"]
+
+[node name="stage" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="stage"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="stage/StaticBody3D"]
+mesh = SubResource("BoxMesh_70ebh")
+surface_material_override/0 = SubResource("StandardMaterial3D_mlo6r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stage/StaticBody3D"]
+shape = SubResource("BoxShape3D_0nfd6")
+
+[node name="environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="environment"]
+environment = SubResource("Environment_70ebh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="environment"]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 30, 0)
+shadow_enabled = true
+
+[node name="mosquito_player" parent="." instance=ExtResource("3_4c7jm")]
+transform = Transform3D(-0.2, 0, -1.7484556e-08, 0, 0.2, 0, 1.7484556e-08, 0, -0.2, 0, 5.4665565, -9.570921)
