@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2mnd1exy5oor"]
+
+[ext_resource type="Script" uid="uid://ccu3mopsh7d35" path="res://scripts/collision/copy_mesh_size.gd" id="1_7yjem"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cx3tw"]
+radius = 50.0
+height = 180.0
+
+[node name="Human" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("CapsuleMesh_cx3tw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" node_paths=PackedStringArray("mesh_instance")]
+script = ExtResource("1_7yjem")
+mesh_instance = NodePath("../MeshInstance3D")

@@ -8,11 +8,16 @@ extends CharacterBody3D
 @export var mosquito_visual: Node3D
 
 # ==================================================
+# HUD Canvas
+# ==================================================
+@export var state_bar_layers: CanvasLayer
+
+# ==================================================
 # Movimiento
 # ==================================================
 @export var move_speed: float = 70.0
 @export var strafe_speed: float = 30.0
-@export var fly_speed: float = 20.0
+@export var fly_speed: float = 45.0
 @export var gravity: float = 60.0
 @export var mouse_sensitivity: float = 0.002
 @export var acceleration: float = 6.0
@@ -42,6 +47,7 @@ var target_tilt: float = 0.0
 # Estado
 # ==================================================
 var is_attached: bool = false
+var is_on_layer_3: bool = false
 var attached_normal: Vector3 = Vector3.UP
 var saved_forward: Vector3 = Vector3.FORWARD
 var normal_basis: Basis
@@ -58,6 +64,16 @@ func _ready() -> void:
 		pitch_pivot = find_child("PitchPivot", true, false) as Node3D
 	if mosquito_visual == null:
 		mosquito_visual = find_child("Mosquito", true, false) as Node3D
+	if state_bar_layers == null:
+		state_bar_layers = find_child("CanvasLayer", true, false) as CanvasLayer
+
+	if state_bar_layers != null:
+		if state_bar_layers.has_method("set_blood_value"):
+			state_bar_layers.set_blood_value(0.30)
+		if state_bar_layers.has_method("set_energy_value"):
+			state_bar_layers.set_energy_value(0.75)
+		if state_bar_layers.has_method("set_mosquito_state"):
+			state_bar_layers.set_mosquito_state(is_on_layer_3)
 
 	normal_basis = global_transform.basis
 	_update_mosquito_color()
@@ -79,7 +95,6 @@ func _input(event: InputEvent) -> void:
 # PHYSICS
 # ==================================================
 func _physics_process(delta: float) -> void:
-
 	var forward: Vector3 = -pitch_pivot.global_transform.basis.z
 	var right: Vector3 = yaw_pivot.global_transform.basis.x
 	var input_velocity: Vector3 = Vector3.ZERO
@@ -106,13 +121,14 @@ func _physics_process(delta: float) -> void:
 			velocity = attached_normal * attached_fly_speed
 
 			is_attached = false
+			is_on_layer_3 = false
 			_update_mosquito_color()
 		else:
 			velocity.y = fly_speed
 
 	# Inercia
-	var target: Vector3 = Vector3(input_velocity.x, 0, input_velocity.z)
-	var current: Vector3 = Vector3(velocity.x, 0, velocity.z)
+	var target: Vector3 = Vector3(input_velocity.x, 0.0, input_velocity.z)
+	var current: Vector3 = Vector3(velocity.x, 0.0, velocity.z)
 
 	current = current.lerp(target, acceleration * delta)
 
@@ -130,14 +146,20 @@ func _physics_process(delta: float) -> void:
 
 	# Detectar superficie especial
 	if !is_attached:
+		is_on_layer_3 = false
+
 		for i in range(get_slide_collision_count()):
 			var c: KinematicCollision3D = get_slide_collision(i)
 
 			if c.get_collider() is CollisionObject3D:
 				var layer: int = (c.get_collider() as CollisionObject3D).collision_layer
 
-				if (layer & (1 << 1)) != 0 or (layer & (1 << 2)) != 0:
+				var is_layer_2: bool = (layer & (1 << 1)) != 0
+				var is_layer_3_hit: bool = (layer & (1 << 2)) != 0
+
+				if is_layer_2 or is_layer_3_hit:
 					is_attached = true
+					is_on_layer_3 = is_layer_3_hit
 					attached_normal = c.get_normal().normalized()
 					saved_forward = -global_transform.basis.z
 					_update_mosquito_color()
@@ -150,7 +172,7 @@ func _physics_process(delta: float) -> void:
 		_restore_normal(delta)
 
 # ==================================================
-# COLOR
+# COLOR + HUD
 # ==================================================
 func _update_mosquito_color() -> void:
 	if mosquito_visual != null and mosquito_visual.has_method("set_color"):
@@ -158,6 +180,9 @@ func _update_mosquito_color() -> void:
 			mosquito_visual.set_color(Color.RED)
 		else:
 			mosquito_visual.set_color(Color.GREEN)
+
+	if state_bar_layers != null and state_bar_layers.has_method("set_mosquito_state"):
+		state_bar_layers.set_mosquito_state(is_on_layer_3)
 
 # ==================================================
 # ALIGN

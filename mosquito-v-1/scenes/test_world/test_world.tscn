@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://bxtrqpghco5ya"]
+[gd_scene load_steps=17 format=3 uid="uid://bxtrqpghco5ya"]
 
-[ext_resource type="Texture2D" uid="uid://d0cnev3jvfu58" path="res://assets/textures/test_wall.png" id="1_4c7jm"]
+[ext_resource type="Texture2D" uid="uid://d0cnev3jvfu58" path="res://assets/textures/test/test_wall.png" id="1_4c7jm"]
 [ext_resource type="Texture2D" uid="uid://da7espd388qt4" path="res://assets/environments/sky/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_pxqpm"]
 [ext_resource type="Script" uid="uid://ccu3mopsh7d35" path="res://scripts/collision/copy_mesh_size.gd" id="2_mlo6r"]
 [ext_resource type="PackedScene" uid="uid://qp32euuatmm2" path="res://scenes/mosquito_player/mosquito_player.tscn" id="3_4c7jm"]
 [ext_resource type="PackedScene" uid="uid://dctahdkqi6uv0" path="res://scenes/props/sofa_orange.tscn" id="4_70ebh"]
+[ext_resource type="PackedScene" uid="uid://c2mnd1exy5oor" path="res://scenes/human/human.tscn" id="6_0nfd6"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_70ebh"]
 size = Vector3(550, 0.1, 600)
@@ -141,3 +142,6 @@ shadow_enabled = true
 
 [node name="mosquito_player" parent="." instance=ExtResource("3_4c7jm")]
 transform = Transform3D(-0.2, 0, -1.7484556e-08, 0, 0.2, 0, 1.7484556e-08, 0, -0.2, 0, 130.32945, -9.570921)
+
+[node name="Human" parent="." instance=ExtResource("6_0nfd6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90, -90.12)
