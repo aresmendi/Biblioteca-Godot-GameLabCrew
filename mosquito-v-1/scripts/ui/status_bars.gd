@@ -1,3 +1,24 @@
+# ==================================================
+# SCRIPT: status_bar.gd
+# TITLE: Control de barras de estado del mosquito
+# AUTHOR: Davide F.
+# DATE: 20-04-2026
+# VERSION: 1.0
+#
+# DESCRIPTION:
+# Este script se aplica a un CanvasLayer y gestiona
+# la visualización de las barras de sangre y energía
+# del mosquito dentro de la interfaz.
+#
+# Se encarga de localizar automáticamente los nodos
+# necesarios, aplicar los colores configurados,
+# actualizar el valor de relleno de cada barra y
+# modificar sus dimensiones según el estado actual.
+#
+# Cuando el mosquito cambia de estado, el script
+# adapta el tamaño visual de las barras para resaltar
+# una de ellas sobre la otra.
+# ==================================================
 extends CanvasLayer
 
 # ==================================================

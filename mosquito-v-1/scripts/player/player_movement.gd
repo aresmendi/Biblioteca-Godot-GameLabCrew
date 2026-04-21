@@ -1,3 +1,33 @@
+# ==================================================
+# SCRIPT: player_movement.gd
+# TITLE: Control de movimiento y estados del jugador
+# AUTHOR: Davide F.
+# DATE: 17-04-2026
+# VERSION: 1.1
+#
+# DESCRIPTION:
+# Este script se aplica a un CharacterBody3D y gestiona
+# el movimiento principal del jugador, la rotación de
+# cámara, la transición entre vuelo y apoyo en superficies
+# especiales y la comunicación visual con el mosquito y
+# la interfaz.
+#
+# En estado de vuelo, el jugador puede desplazarse,
+# orientarse con el ratón y ganar impulso con la tecla
+# asignada al vuelo.
+#
+# En estado apoyado, el jugador queda fijado a una
+# superficie especial, deja de desplazarse libremente
+# y solo puede observar alrededor y despegar con un
+# impulso adaptado a la normal de la superficie.
+#
+# Si la superficie de apoyo pertenece a un objeto móvil,
+# el jugador acompaña su desplazamiento mientras permanece
+# adherido a él.
+#
+# También actualiza el color del mosquito y el estado
+# de las barras de interfaz según el tipo de colisión.
+# ==================================================
 extends CharacterBody3D
 
 # ==================================================
@@ -51,6 +81,8 @@ var is_on_layer_3: bool = false
 var attached_normal: Vector3 = Vector3.UP
 var saved_forward: Vector3 = Vector3.FORWARD
 var normal_basis: Basis
+var attached_body: CollisionObject3D = null
+var last_body_position: Vector3 = Vector3.ZERO
 
 # ==================================================
 # INIT
@@ -79,7 +111,7 @@ func _ready() -> void:
 	_update_mosquito_color()
 
 # ==================================================
-# INPUT (NO TOCAR)
+# INPUT
 # ==================================================
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -122,6 +154,8 @@ func _physics_process(delta: float) -> void:
 
 			is_attached = false
 			is_on_layer_3 = false
+			attached_body = null
+			last_body_position = Vector3.ZERO
 			_update_mosquito_color()
 		else:
 			velocity.y = fly_speed
@@ -152,7 +186,8 @@ func _physics_process(delta: float) -> void:
 			var c: KinematicCollision3D = get_slide_collision(i)
 
 			if c.get_collider() is CollisionObject3D:
-				var layer: int = (c.get_collider() as CollisionObject3D).collision_layer
+				var body: CollisionObject3D = c.get_collider() as CollisionObject3D
+				var layer: int = body.collision_layer
 
 				var is_layer_2: bool = (layer & (1 << 1)) != 0
 				var is_layer_3_hit: bool = (layer & (1 << 2)) != 0
@@ -162,8 +197,18 @@ func _physics_process(delta: float) -> void:
 					is_on_layer_3 = is_layer_3_hit
 					attached_normal = c.get_normal().normalized()
 					saved_forward = -global_transform.basis.z
+					attached_body = body
+					last_body_position = attached_body.global_position
 					_update_mosquito_color()
 					break
+
+	# Seguir el movimiento del objeto al que está apoyado
+	if is_attached and attached_body != null:
+		var current_body_position: Vector3 = attached_body.global_position
+		var delta_body_position: Vector3 = current_body_position - last_body_position
+
+		global_position += delta_body_position
+		last_body_position = current_body_position
 
 	# Rotación
 	if is_attached:

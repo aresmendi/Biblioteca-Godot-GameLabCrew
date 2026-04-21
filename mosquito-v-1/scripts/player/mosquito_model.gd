@@ -1,3 +1,22 @@
+# ==================================================
+# SCRIPT: mosquito_model.gd
+# TITLE: Control de color del mosquito según estado
+# AUTHOR: Davide F.
+# DATE: 19-04-2026
+# VERSION: 1.0
+#
+# DESCRIPTION:
+# Este script se aplica a un Node3D que contiene uno
+# o varios MeshInstance3D.
+#
+# Recorre automáticamente todos los meshes hijos y
+# permite cambiar su color de forma global mediante
+# la asignación de materiales.
+#
+# Se utiliza para reflejar visualmente el estado del
+# mosquito (por ejemplo, volando o apoyado) a través
+# de cambios de color.
+# ==================================================
 extends Node3D
 
 var mesh_instances: Array[MeshInstance3D] = []
